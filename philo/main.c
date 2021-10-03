@@ -63,6 +63,13 @@ typedef struct s_philo
     
 }           t_philo;
 
+typedef struct s_routine_args
+{
+    pthread_mutex_t *forks;
+    t_args          *args;
+    int             id;
+}              t_routine_args;
+
 int parse_args(t_args *args, char *argv[])
 {
     if (atoi(argv[1]) == 0)
@@ -90,60 +97,62 @@ void    *print_args(t_args *args)
     return (NULL);
 }
 
-int do_eating(t_args *args, int nth)
+void    do_eating(t_args *args, int nth)
 {
     printf("%d\t%d\tis eating\n", 0, nth);
-    usleep(args->time_to_eat);
-    return (1);
+    usleep(1e+3 * args->time_to_eat);
 }
 
-int do_sleeping(t_args *args, int nth)
+void    do_sleeping(t_args *args, int nth)
 {
-    printf("%d\t%d\tis sleeping\n", 0, nth);
-    usleep(args->time_to_sleep);
-    return (1);
+    usleep(1e+3 * args->time_to_sleep);
 }
 
-int do_thinking(t_args *args, int nth)
+void    do_thinking(t_args *args, int nth)
 {
     printf("%d\t%d\tis thinking\n", 0, nth);
-    return (1);
 }
 
-void    *routine_odd(pthread_mutex_t *forks, t_args* args, int nth)
+void    *routine_odd(void   *rt_args)
 {
-    int i;
+    t_routine_args  *rt;
+    int id;
 
-    i = 0;
-    while (i++ < args->max_eat_number)
+    rt = (t_routine_args *)rt_args;
+    id = rt->id;
+    while (1)
     {
         //left -> right
-        pthread_mutex_lock(&forks[nth]);
-        pthread_mutex_lock(&forks[nth + 1]);
-        do_eating(args, nth);
-        pthread_mutex_unlock(&forks[nth]);
-        pthread_mutex_unlock(&forks[nth + 1]);
-        do_sleeping(args, nth);
-        do_thinking(args, nth);
+        pthread_mutex_lock(&(rt->forks[id]));
+        pthread_mutex_lock(&(rt->forks[id + 1]));
+        do_eating(rt->args, id);
+        printf("%d\t%d\tis sleeping\n", 0, id);
+        pthread_mutex_unlock(&(rt->forks[id]));
+        pthread_mutex_unlock(&(rt->forks[id + 1]));
+        do_sleeping(rt->args, id);
+        do_thinking(rt->args, id);
     }
     return (NULL);
 }
 
-void    *routine_even(pthread_mutex_t *forks, t_args* args, int nth)
+void    *routine_even(void  *rt_args)
 {
-    int i;
+    t_routine_args  *rt;
+    int             id;
 
-    i = 0;
-    while (i++ < args->max_eat_number)
+    rt = (t_routine_args *)rt_args;
+    id = rt->id;
+    while (1)
     {
         //right -> left
-        pthread_mutex_lock(&forks[nth + 1]);
-        pthread_mutex_lock(&forks[nth]);
-        do_eating(args, nth);
-        pthread_mutex_unlock(&forks[nth + 1]);
-        pthread_mutex_unlock(&forks[nth]);
-        do_sleeping(args, nth);
-        do_thinking(args, nth);
+        pthread_mutex_lock(&(rt->forks[id + 1]));
+        pthread_mutex_lock(&(rt->forks[id]));
+        do_eating(rt->args, id);
+        printf("%d\t%d\tis sleeping\n", 0, id);
+        pthread_mutex_unlock(&(rt->forks[id + 1]));
+        pthread_mutex_unlock(&(rt->forks[id]));
+        do_sleeping(rt->args, id);
+        do_thinking(rt->args, id);
     }
     return (NULL);
 }
@@ -173,16 +182,29 @@ pthread_t   *generate_philos(int number_of_philos)
 
 void let_dinning(pthread_t *philos, pthread_mutex_t *forks, t_args *args)
 {
-    int i;
+    t_routine_args  rt_args;
 
-    i = 1;
-    while(i < args->number_of_philos)
+    rt_args.forks = forks;
+    rt_args.args = args;
+    rt_args.id = 0;
+    int id;
+
+    id = 0;
+    while (id < args->number_of_philos)
     {
-        if (i % 2 == 1)
-            pthread_create(&philos[i], NULL, (void *)routine_odd(forks, args, i), NULL);
+        if (id % 2 == 1)
+        {
+            rt_args.id = id;
+            pthread_create(&philos[id], NULL, (void *)*routine_odd, &rt_args);
+            id++;
+        }
         else
-            pthread_create(&philos[i], NULL, (void *)routine_even(forks, args, i), NULL);
-        i++;
+        {
+            rt_args.id = id;
+            pthread_create(&philos[id], NULL, (void *)*routine_even, &rt_args);
+            printf("id %d\n",rt_args.id);
+             id++;
+        }
     }
 }
 
@@ -191,11 +213,11 @@ void end_dinning(pthread_t *philos, pthread_mutex_t *forks, t_args *args)
     int i;
 
     i = 0;
-    while (i <= args->number_of_philos)
-        pthread_mutex_unlock(&forks[i++]);
-    i = 0;
     while (i < args->number_of_philos)
         pthread_join(philos[i++], NULL);
+    i = 0;
+    while (i <= args->number_of_philos)
+        pthread_mutex_unlock(&forks[i++]);
     i = 0;
     while (i <= args->number_of_philos)
         pthread_mutex_destroy(&forks[i++]);
@@ -234,6 +256,7 @@ int main(int argc, char *argv[])
     if (prepare_dinning(&philos, &forks, &args) == FAIL)
         return (3);
     let_dinning(philos, forks, &args);
-    end_dinning(philos, forks, &args);
+    // end_dinning(philos, forks, &args);
+    while(1);
     return (0);
 }
