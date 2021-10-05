@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:47:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/05 17:28:10 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/05 21:01:42 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ static int	init_time(t_args *args);
 static int	update_time(t_args *args);
 
 /*
-**	clock()
+**	routine_clock()
 **	a routine for a clock-thread
 */
-void	*clock(t_args *args)
+void	*routine_clock(t_args *args)
 {
-	if (init_time(args) == success)
+	if (init_time(args) == SUCCESS)
 	{
-		while (args->shared->someone_died != true \
-				|| update_time(args) == success)
+		while (args->shared.someone_died != TRUE \
+				|| update_time(args) == SUCCESS)
 			continue ;
 	}
 	return (NULL);
@@ -36,13 +36,13 @@ void	*clock(t_args *args)
 */
 static int	init_time(t_args *args)
 {
-	if (gettimeofday(&(args->time->tp), NULL) == success)
+	if (gettimeofday(&(args->time.tp), NULL) == SUCCESS)
 	{
-		args->time->start = 1e+3 * args->time->tp.tv_sec + \
-							1e-3 * args->time->tp.tv_usec;
-		return (success);
+		args->time.start = 1e+3 * args->time.tp.tv_sec + \
+							1e-3 * args->time.tp.tv_usec;
+		return (SUCCESS);
 	}
-	return (fail);
+	return (FAIL);
 }
 
 /*
@@ -52,10 +52,10 @@ static int	init_time(t_args *args)
 */
 static int	update_time(t_args *args)
 {
-	if (usleep(200) != success \
-		|| gettimeofday(&(args->time->tp), NULL) != success)
-		return (fail);
-	args->shared->time_of_main = 1e+3 * args->time->tp.tv_sec + \
-						1e-3 * args->time->tp.tv_usec - args->time->start;
-	return (success);
+	if (usleep(200) != SUCCESS \
+		|| gettimeofday(&(args->time.tp), NULL) != SUCCESS)
+		return (FAIL);
+	args->shared.time_of_main = 1e+3 * args->time.tp.tv_sec + \
+						1e-3 * args->time.tp.tv_usec - args->time.start;
+	return (SUCCESS);
 }
