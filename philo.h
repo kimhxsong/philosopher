@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonsok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:46:41 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/04 21:47:00 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:24:44 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-
-# define FALSE 0
-# define TRUE 1
-# define SUCCESS 0
-# define FAIL 1
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -25,6 +20,7 @@
 typedef struct s_time
 {
 	struct timeval	tp;
+	unsigned int	start;
 }				t_time;
 
 typedef struct s_shared
@@ -49,6 +45,7 @@ typedef struct s_key
 {
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
+	pthread_mutex_t	clock;
 }				t_key;
 
 typedef struct s_args
@@ -58,6 +55,14 @@ typedef struct s_args
 	t_time		*time;
 	t_key		*key;
 }				t_args;
+
+enum	e_res
+{
+	fail = -1,
+	success = 0,
+	false = 0,
+	true = 1
+};
 
 enum	e_stat
 {
@@ -70,7 +75,7 @@ enum	e_stat
 /*
 **	time.c
 */
-void	*update_time(t_args *args);
+void	*clock(t_args *args);
 
 /*
 ** utils.c
