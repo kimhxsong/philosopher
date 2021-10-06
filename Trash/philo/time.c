@@ -1,29 +1,44 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <sys/time.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <errno.h>
+#include <stdlib.h>
 
-typedef struct s_time {
-    struct timeval start;
-    struct timeval end;
-}              t_time;
-
-float   get_elapsed(t_time *time) {
-   return (time->end.tv_sec - time->start.tv_sec + 1e-6*(time->end.tv_usec - time->start.tv_usec));
-}
-
-void    print_elapsed(t_time *time) {
-    printf("%0.6f\n", \
-        time->end.tv_sec - time->start.tv_sec + 1e-6*(time->end.tv_usec - time->start.tv_usec));
-}
-
-int main(void)
+#include <limits.h>
+void * ThreadFunc1( void * pclsArg )
 {
-    t_time time;
+    sleep(5);
+    printf("1\n");
+    return NULL;
+}
+void * ThreadFunc2( void * pclsArg )
+{
+    while(1)
+    {
+        sleep(2);
+        printf("ok\n");
+    }
+    return NULL;
+}
 
-    gettimeofday(&time.start, NULL);
-    usleep(1e+6);
-    gettimeofday(&time.end, NULL);
-    print_elapsed(&time);
-    printf("%f\n", get_elapsed(&time));
+int	main( int argc, char * argv[] )
+{
+	int iCount = 0;
+	pthread_t iThread;
+
+    pthread_create( &iThread, NULL, ThreadFunc2, NULL );
+	while( iCount <= 0)
+	{
+		if( pthread_create( &iThread, NULL, ThreadFunc1, NULL ) != 0 )
+		{
+			printf( "error = %d\n", errno );
+			break;
+		}
+		++iCount;   
+	}
+    //pthread_detach(iThread);
+	system("leaks a.out");
+    sleep(10);
+	system("leaks a.out");
+	return 0;
 }

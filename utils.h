@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:34:23 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/06 02:46:40 by hyeonsok         ###   ########seoul.kr  */
+/*   Updated: 2021/10/09 21:26:00 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 /*
 ** ft_%.c
 */
-int				ft_isif(char *str);
-int				ft_iterargv(int ac, char *av[], int (*isfptr(char *)));
-void			ft_iternary(int d, int a, int b);
+int				ft_isintf(char *str);
+int				ft_iterargv(int ac, char *av[], int (isfptr(char *)));
+int				ft_iternary(int d, int a, int b);
 void			*ft_pternary(int d, void *a, void *b);
 
 /*
