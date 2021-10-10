@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:46:41 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 16:31:59 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:54:20 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,5 @@ int			parse(t_shared *shared, int ac, char *av[]);
 /*
 **	print.c
 */
-int			print_state(t_args *args);
+int			print_state(t_private *p, t_shared *s);
 #endif
