@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:46:41 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 13:42:54 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/10 14:19:34 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_info
 	int				time_of_sleeping;
 	int				time_of_eating;
 	int				time_to_die;
-	int				max_eat_number;
+	unsigned int	max_eat_number;
 	double			time_of_main;
 	int				someone_died;
 }					t_info;
