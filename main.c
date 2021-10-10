@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 17:35:10 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 16:31:55 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:21:24 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ int	simul(t_shared *shared)
 	t_args		*args;
 	pthread_t	task;
 	int			i;
+	int			res;
 
 	if (args == NULL || init_args(&args, shared) == FAIL)
 		return (FAIL);
 	i = -1;
 	while (++i < shared->info.number_of_philo)
 	{
+		res = pthread_mutex_lock(&args->s->key.order);
+		printf("loop[%d] %d\n", i, res);
 		if (pthread_create(&task, NULL, routine_dining, (void *)&args[i]) != 0 \
 			|| pthread_detach(task) != 0)
 			return (FAIL);
