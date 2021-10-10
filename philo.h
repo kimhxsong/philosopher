@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:46:41 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 14:19:34 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/10 16:31:59 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef enum  e_state
 	STATE_EATING,
 	STATE_SLEEPING,
 	STATE_THINKING,
-	STATE_DIED
+	STATE_DIED,
+	STATE_FULL
 }	t_state;
 
 typedef struct s_info
@@ -52,7 +53,7 @@ typedef struct s_info
 	int				time_to_die;
 	unsigned int	max_eat_number;
 	double			time_of_main;
-	int				someone_died;
+	int				finish;
 }					t_info;
 
 typedef struct s_private
@@ -63,6 +64,7 @@ typedef struct s_private
 	int				odd;
 	int				time_of_thread;
 	int				time_to_die;
+	int				num_of_eat;
 	int				end_of_eating;
 	int				end_of_sleeping;
 }					t_private;
@@ -72,7 +74,6 @@ typedef struct s_key
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
 	pthread_mutex_t	order;
-	pthread_mutex_t	finish;
 }					t_key;
 
 typedef struct s_shared
@@ -97,9 +98,16 @@ void		*routine_dining(void *args);
 void		*routine_watch(void *args);
 
 /*
+**	time.c
+*/
+
+int			init_time(t_shared *shared);
+void		update_time(t_shared *shared);
+
+/*
 **	parse.c
 */
-int	parse(t_shared *shared, int ac, char *av[]);
+int			parse(t_shared *shared, int ac, char *av[]);
 
 /*
 **	print.c

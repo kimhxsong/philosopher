@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:59:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 14:40:21 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/10 15:58:06 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	print_error(int	myerrno)
 static int	init_shared(int ac, char *av[], t_shared *shared)
 {
 	shared->info.time_of_main = 0;
-	shared->info.someone_died = 0;
+	shared->info.finish = 0;
 	shared->info.max_eat_number = -1;
 	shared->info.number_of_philo = atoi(av[1]);
 	if (shared->info.number_of_philo > PTHREAD_STACK_MIN / 2)

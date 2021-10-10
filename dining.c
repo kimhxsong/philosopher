@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 13:41:45 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/10 16:38:32 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ static int	getforks(t_args *args)
 
 	s = args->s;
 	p = &args->p;
-	if (pthread_mutex_lock(&s->fork[p->odd]) != 0)
+	if (pthread_mutex_lock(&s->fork[p->odd]) == 0)
 	{	
-		q = s->info.time_of_main / s->info.time_of_eating;
+		if (p->id % 2 == 0)
+			pthread_mutex_unlock(&s->key.order);
+		q = p->time_of_thread / s->info.time_of_eating;
 		p->time_of_thread += s->info.time_of_eating * q;
 		p->state = STATE_ONE_FORK;
 		if (print_state(args) == FAIL || pthread_mutex_lock(&s->fork[p->even]) != 0)
@@ -98,18 +100,19 @@ void	*routine_dining(void *data)
 	t_shared	*s;
 
 	args = (t_args *)data;
-	if (args != NULL && pthread_mutex_unlock(&args->s->key.order) == 0)
+	if (args != NULL && pthread_mutex_lock(&args->s->key.order) == 0)
 	{
 		s = args->s;
+		if (args->p.id % 2 == 1 && pthread_mutex_unlock(&s->key.order) != 0)
+			return (NULL);
 		i = -1;
-		while (++i < s->info.max_eat_number && s->info.someone_died == FALSE)
+		while (++i < s->info.max_eat_number && s->info.finish == FALSE)
 		{
 			if (getforks(args) == FAIL \
 				|| do_eating(args) == FAIL\
 				|| do_sleeping(args) == FAIL\
 				|| do_thinking(args) == FAIL)
 				break ;
-				// || putforks(args) == FAIL
 		}
 	}
 	return (NULL);
