@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 17:56:20 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/12 14:24:36 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,105 +17,111 @@
 **	A Routine for the Dining Philosopher
 */
 
+
+
 static int	get_forks(t_private *p, t_shared *s)
 {
-	int			q;
-
+	pthread_mutex_t	*first;
+	pthread_mutex_t	*second;
+	int				q;
+	
+	first = &s->fork[p->first];
+	second = &s->fork[p->second];
 	if (p->state == STATE_THINKING)	
 	{
-		if (pthread_mutex_lock(&s->fork[p->odd]) != 0)
-			return (FAIL);
-		q = p->time_of_thread / s->info.time_of_eating;
-		p->time_of_thread += s->info.time_of_eating * q;
+		pthread_mutex_lock(first);
+		// printf("THREAD[%d] TAKEN FORK[%d]\n", p->id, p->first);
+		q = (s->time.current - p->time_of_thread) / s->info.time_of_eating;
+		p->time_of_thread += q * s->info.time_of_eating;
 		p->state = STATE_ONE_FORK;
 	}
-	if (p->state == STATE_ONE_FORK)
+	else if (p->state == STATE_ONE_FORK && print_state(p, s) == SUCCESS)
 	{
-		if (print_state(p, s) == FAIL || pthread_mutex_lock(&s->fork[p->even]) != 0)
-			return (FAIL);
+		pthread_mutex_lock(second);
+		// printf("THREAD[%d] EATING[%d]\n", p->id, p->second);
+		q = (s->time.current - p->time_of_thread) / s->info.time_of_eating;
+		p->time_of_thread += q * s->info.time_of_eating;
 		p->state = STATE_EATING;
-		q = (s->info.time_of_main - p->end_of_sleeping) / s->info.time_of_eating;
-		if (q < 0 || q > 1)
-			return (FAIL);
-		p->time_of_thread = p->end_of_eating + s->info.time_of_eating * q;
 	}
+	else
+		return (FAIL);
 	return (SUCCESS);
 }
 
 static int	do_eating(t_private *p, t_shared *s)
 {
-	if (print_state(p, s) == SUCCESS)
-	{
-		p->time_to_die += s->info.time_to_die;
+	if (p->state == STATE_EATING && print_state(p, s) == SUCCESS)
+	{	
+		p->time_to_die = p->time_of_thread + s->info.time_to_die;
 		p->end_of_eating = p->time_of_thread + s->info.time_of_eating;
-		while(s->info.time_of_main < p->end_of_eating)
-		{
-			if (usleep(2000) != 0)
-				return  (FAIL);
-		}
-		
-		return (SUCCESS);
+		p->num_of_eat += 1;
+		while(s->time.current < p->end_of_eating)
+			usleep(200);
+		p->time_of_thread = p->end_of_eating;
+		p->state = STATE_SLEEPING;
 	}
-	return (FAIL);
+	else
+		return (FAIL);
+	return (SUCCESS);
 }
 
 static int do_sleeping_and_thinking(t_private *p, t_shared *s)
 {
-	p->state = STATE_SLEEPING;
-	p->time_of_thread = p->end_of_eating;
-	if (print_state(p, s) == SUCCESS)
+	if (p->state == STATE_SLEEPING && print_state(p, s) == SUCCESS)
 	{
-		pthread_mutex_unlock(&s->fork[p->odd]);
-		pthread_mutex_unlock(&s->fork[p->even]);
+		if (p->num_of_eat > s->info.max_eat_number)
+			p->state = STATE_FULL;
+		pthread_mutex_unlock(&s->fork[p->second]);
+		pthread_mutex_unlock(&s->fork[p->first]);
 		p->end_of_sleeping = p->time_of_thread + s->info.time_of_sleeping;
-		while (s->info.time_of_main < p->end_of_sleeping)
-		{
-			if (usleep(2000) != 0)
-				return (FAIL);
-		}
-		return (SUCCESS);
+		while (s->time.current < p->end_of_sleeping)
+			usleep(200);
+		p->time_of_thread = p->end_of_sleeping;
+		p->state = STATE_THINKING;
 	}
-	p->state = STATE_THINKING;
-	p->time_of_thread = p->end_of_sleeping;
-	return (print_state(p, s));
-	return (FAIL);
-}
-
-int		do_ordering(t_private *p, t_shared *s)
-{
-	if (p->id % 2 == 0)
-	{
-		if (pthread_mutex_lock(&s->fork[p->odd]) == 0)
-			p->state = STATE_ONE_FORK;
-		else
-			return (FAIL);
-	}
-	if (pthread_mutex_unlock(&s->key.order) != 0)
+	else
+		return (FAIL);
+	if (p->state == STATE_THINKING && print_state(p, s) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
+}
+
+static int	do_ordering(t_private *p, t_shared *s)
+{
+	int	res;
+	int	q;
+	
+	// printf("THREAD[%d] KEY LOCKED F[%d], S[%d]\n", p->id, p->first, p->second);
+	if (p->id % 2 == 0)
+		res = get_forks(p, s) || get_forks(p, s);
+	pthread_mutex_unlock(&s->key.order);
+	// printf("THREAD[%d] KEY ONLOCKED F[%d], S[%d]\n", p->id, p->first, p->second);
+	return (res);
 }
 
 void	*routine_dining(void *args)
 {
 	t_private	*p;
 	t_shared	*s;
-	int			i;
+	int			res;
 
 	p = &((t_args *)args)->p;
 	s = ((t_args *)args)->s;
-	if(do_ordering(p, s) == FAIL)
-		return (NULL);
-	i = -1;
-	while (++i < s->info.max_eat_number && s->info.finish == FALSE)
+	// printf("[%d] routine start\n", p->id);
+	if(do_ordering(p, s) != 0)
 	{
-		if (get_forks(p, s) == FAIL)
-			break ;
-		if (do_eating(p, s) == FAIL)
-			break ;
-		if (do_sleeping_and_thinking(p, s) == FAIL)
-			break ;
+		s->finish = TRUE;
+		pthread_mutex_unlock(&s->key.order);
+		return (NULL);
 	}
-	//TODO
-	//destroy mutexs and free args
+	res = 0;
+	// printf("[%d] after ordering \n", p->id);
+	while (s->finish == 0)
+	{
+		get_forks(p, s);
+		do_eating(p, s);
+		do_sleeping_and_thinking(p, s);
+	}
+	printf("[%d] loop out\n", p->id);
 	return (NULL);
 }

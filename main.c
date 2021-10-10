@@ -6,90 +6,104 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 17:35:10 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 17:21:24 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/12 14:17:27 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_args(t_args **args, t_shared *shared)
+static void	init_private(t_args *args, t_shared *s, int i)
 {
-	int		i;
+	int	first;
+	int	second;
 	
-	if (args == NULL || shared == NULL)
-		return (FAIL);
-	*args = (t_args *)malloc(sizeof(t_args) * shared->info.number_of_philo);
-	shared->fork = (pthread_mutex_t *)malloc(sizeof(t_args) \
-					* (shared->info.number_of_philo + 1));
-	if (*args == NULL || shared->fork == NULL)
-		return (FAIL);
-	shared->fork[shared->info.number_of_philo] = shared->fork[0];
-	i = -1;
-	while (++i < shared->info.number_of_philo)
+	memset((void *)args, 0, sizeof(args));
+	args->s = s;
+	args->p.id = i;
+	args->p.time_to_die = s->info.time_to_die;
+	args->p.first = i;
+	args->p.second = (i + 1) % s->info.number_of_philo;
+	if (s->info.number_of_philo % 2 == 0 && args->p.id % 2 == 0)
 	{
-		pthread_mutex_init(&shared->fork[i], NULL);
-		(*args)[i].s = shared;
-		(*args)[i].p.id = i;
-		(*args)[i].p.even = i + i % 2;
-		if (i % 2 == 0)
-			(*args)[i].p.odd = i + i % 2 + 1;
-		else
-			(*args)[i].p.odd = i + i % 2 - 1;
-		(*args)[i].p.time_of_thread = 0;
-		(*args)[i].p.time_to_die = shared->info.time_to_die;
-		(*args)[i].p.state = STATE_THINKING;
-		(*args)[i].p.end_of_eating = shared->info.time_of_eating;
-		(*args)[i].p.end_of_sleeping = 0;
+		args->p.first = (i + 1) % s->info.number_of_philo;
+		args->p.second = i;
 	}
-	pthread_mutex_init(&shared->key.death, NULL);
-	pthread_mutex_init(&shared->key.order, NULL);
-	pthread_mutex_init(&shared->key.print, NULL);
-	return (SUCCESS);
+	args->p.state = STATE_THINKING;
+	// args->p.second = (i + i % 2) % s->info.number_of_philo;
+	// if (i % 2 == 0)
+	// 	args->p.first = (i + i % 2 + 1) % s->info.number_of_philo;
+	// else
+	// 	args->p.first = i + i % 2 - 1;
+	// args->p.time_of_thread = 0;
+	// args->p.end_of_eating = 0;
+	// args->p.end_of_sleeping = 0;
+	// args->p.num_of_eat = 0;
 }
 
-int	simul(t_shared *shared)
+static int	init_args(t_args **args, t_shared *s)
+{
+	int		res;
+	int		i;
+
+	*args = (t_args *)malloc(sizeof(t_args) * s->info.number_of_philo);
+	s->fork = (pthread_mutex_t *) \
+			   malloc(sizeof(pthread_mutex_t) * (s->info.number_of_philo + 1));
+	if (*args == NULL || s->fork == NULL)
+		return (FAIL);
+	s->fork[s->info.number_of_philo] = s->fork[0];
+	i = s->info.number_of_philo;
+	while (--i >= 0)
+	{
+		if (pthread_mutex_init(&s->fork[i], NULL) == 0)
+			init_private(&((*args)[i]), s, i);
+		else
+			break ;
+	}
+	res = ++i || pthread_mutex_init(&s->key.death, NULL) \
+			  || pthread_mutex_init(&s->key.order, NULL) \
+			  || pthread_mutex_init(&s->key.print, NULL);
+	return (res);
+}
+
+int	simul(t_shared *s)
 {
 	t_args		*args;
 	pthread_t	task;
 	int			i;
 	int			res;
 
-	if (args == NULL || init_args(&args, shared) == FAIL)
-		return (FAIL);
+	res = (s == NULL) || (init_args(&args, s) != 0);
 	i = -1;
-	while (++i < shared->info.number_of_philo)
+	while (res == 0 && ++i < s->info.number_of_philo)
 	{
-		res = pthread_mutex_lock(&args->s->key.order);
-		printf("loop[%d] %d\n", i, res);
-		if (pthread_create(&task, NULL, routine_dining, (void *)&args[i]) != 0 \
-			|| pthread_detach(task) != 0)
-			return (FAIL);
-		if (pthread_create(&task, NULL, routine_watch, (void *)&args[i]) != 0 \
-			|| pthread_detach(task) != 0)
-			return (FAIL);
+		res = pthread_mutex_lock(&args->s->key.order) \
+		   || pthread_create(&task, NULL, routine_dining, (void *)&args[i]) \
+		   || pthread_detach(task) \
+		   || pthread_create(&task, NULL, routine_watch, (void *)&args[i]) \
+		   || pthread_detach(task);
 	}
-	if (shared->info.number_of_philo % 2 == 1)
-		pthread_mutex_unlock(&shared->key.order);
-	if (init_time(shared) == FAIL)
-		return (FAIL);
-	while (shared->info.finish == 0)
+	res = (init_time(s) == FAIL);
+	while (res == 0 && s->finish == FALSE)
 	{
-		if(usleep(2000) != 0 || gettimeofday(&shared->time.tp, NULL) != 0)
-			return (FAIL);
-		shared->info.time_of_main = 1e+3 * shared->time.tp.tv_sec \
-								+ 1e-3 * shared->time.tp.tv_usec \
-								- shared->time.start;
+		s->time.current = 1e+3 * s->time.tp.tv_sec \
+							 + 1e-3 * s->time.tp.tv_usec - s->time.start;
+		res = usleep(500) || gettimeofday(&s->time.tp, NULL);
 	}
-	return (SUCCESS);
+	if (res == 0)
+		return (SUCCESS);
+	return (FAIL);
 }
 
 int	main(int ac, char *av[])
 {
-	t_shared	shared;
+	t_shared	s;
+	int			res;
 
-	if (parse(&shared, ac, av) == FAIL)
-		return (1);
-	if (simul(&shared) == FAIL)
-		return (2);
+	res = parse(&s, ac, av);
+	if (res != 0)
+		return(printf("%s", g_err[res - 1]));
+	res = simul(&s);
+	if (res != 0)
+		return (printf("%s", g_err[res - 1]));
 	return (0);
 }

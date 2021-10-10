@@ -6,26 +6,11 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:59:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 15:58:06 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/12 02:51:51 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	print_error(int	myerrno)
-{
-	const char	*msg[3] = \
-	{
-		"parse: too few arguments or too many arguments\n", \
-		"parse: not in int format. \"[-,+][n zeros][int_min ~ int_max]\"\n", \
-		"parse: argument value too small or negative"\
-	};
-
-	if (myerrno < 0 || myerrno > 2)
-		return (FAIL);
-	printf("%s", msg[myerrno]);
-	return (SUCCESS);
-}
 
 /*
 ** init_shared()
@@ -33,8 +18,10 @@ static int	print_error(int	myerrno)
 */
 static int	init_shared(int ac, char *av[], t_shared *shared)
 {
-	shared->info.time_of_main = 0;
-	shared->info.finish = 0;
+	int	res;
+
+	shared->finish = 0;
+	shared->time.current = 0;
 	shared->info.max_eat_number = -1;
 	shared->info.number_of_philo = atoi(av[1]);
 	if (shared->info.number_of_philo > PTHREAD_STACK_MIN / 2)
@@ -44,11 +31,14 @@ static int	init_shared(int ac, char *av[], t_shared *shared)
 	shared->info.time_of_eating = atoi(av[4]);
 	if (av[5] != NULL)
 		shared->info.max_eat_number = atoi(av[5]);
-	if (shared->info.time_to_die < 20 \
+	res = shared->info.number_of_philo <= 0 \
+		|| shared->info.time_to_die < 20 \
 		|| shared->info.time_of_sleeping < 20 \
 		|| shared->info.time_of_eating < 20 \
-		|| shared->info.max_eat_number <= 0)
+		|| shared->info.max_eat_number <= 0;
+	if (res != 0)
 		return (FAIL);
+	res = shared->info.time_of_eating - shared->info.time_of_sleeping;
 	return (SUCCESS);
 }
 
@@ -59,16 +49,14 @@ static int	init_shared(int ac, char *av[], t_shared *shared)
 */
 int	parse(t_shared *shared, int ac, char *av[])
 {
-	int	err;
+	int	idx;
 
 	if (ac != 5 && ac != 6)
-		err = 0;
+		return (1);
 	else if (ft_iterargv(ac, av, ft_isintf) == FAIL)
-		err = 1;
+		return (2);
 	else if (init_shared(ac, av, shared) == FAIL)
-		err = 2;
+		return (3);
 	else
-		return (SUCCESS);
-	print_error(err);
-	return (FAIL);
+		return (0);
 }

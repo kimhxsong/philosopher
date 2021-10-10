@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:47:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 15:59:23 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/12 02:46:35 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	init_time(t_shared *shared)
 */
 void	update_time(t_shared *shared)
 {
-	shared->info.time_of_main = 1e+3 * shared->time.tp.tv_sec \
+	shared->time.current = 1e+3 * shared->time.tp.tv_sec \
 								+ 1e-3 * shared->time.tp.tv_usec \
 								- shared->time.start;
 }

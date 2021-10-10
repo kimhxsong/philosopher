@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:46:41 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 17:54:20 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/12 02:50:29 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,27 @@
 # define SUCCESS 0
 # define FAIL -1
 
+const static char *g_err[3] = \
+{
+	"parse: too few arguments or too many arguments\n", \
+	"parse: not in int format. \"[-,+][n zeros][int_min ~ int_max]\"\n", \
+	"parse: argument value too small or negative"\
+};
+
+const static char	*g_msg[5] = \
+{
+	"\033[1;33m has taken a fork\033[0;0m", \
+	"\033[0;32m is eating\033[0;0m", \
+	"\033[0;35m is sleeping\033[0;0m", \
+	"\033[0;36m is thinking\033[0;0m", \
+	"\033[0;31m died\033[0;0m"\
+};
 typedef struct s_time
 {
 	struct timeval	tp;
 	double			start;
+	double			current;
 }				t_time;
-
 typedef enum  e_state
 {
 	STATE_ONE_FORK,
@@ -52,16 +67,14 @@ typedef struct s_info
 	int				time_of_eating;
 	int				time_to_die;
 	unsigned int	max_eat_number;
-	double			time_of_main;
-	int				finish;
 }					t_info;
 
 typedef struct s_private
 {
 	t_state			state;
 	int				id;
-	int				even;
-	int				odd;
+	int				second;
+	int				first;
 	int				time_of_thread;
 	int				time_to_die;
 	int				num_of_eat;
@@ -82,6 +95,7 @@ typedef struct s_shared
 	t_time			time;
 	t_key			key;
 	t_info			info;
+	int				finish;
 }					t_shared;
 
 typedef struct s_args
