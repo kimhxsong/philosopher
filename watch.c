@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:17:19 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/12 14:27:00 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:26:34 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,23 @@ void	*routine_watch(void	*args)
 	s = ((t_args *)args)->s;
 	while (s->finish == 0)
 	{
-		usleep(200);
+		usleep(500);
 		if (s->time.current > p->time_to_die)
 		{
 			pthread_mutex_lock(&s->key.death);
+			pthread_mutex_lock(&s->key.print);
 			p->time_of_thread = p->time_to_die;
 			p->state = STATE_DIED;
-			if (print_state(p, s) == SUCCESS)
-				printf("WATCH[%d]\tmain:%f\ttime_to_die:%u\n", p->id, s->time.current, p->time_to_die);
+			if (s->finish == FALSE)
+				printf("%d\t%d\t%s\n", p->time_of_thread, p->id, (char *)g_msg[STATE_DIED]);
+			s->finish = TRUE;
+			pthread_mutex_unlock(&s->key.print);
 			pthread_mutex_unlock(&s->key.death);
 			break ;
 		}
 	}
+	pthread_mutex_unlock(&s->fork[p->second]);
+	pthread_mutex_unlock(&s->fork[p->first]);
+	printf("WATCH[%d] OUT\n", p->id);
 	return (NULL);
 }
