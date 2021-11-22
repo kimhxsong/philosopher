@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:34:23 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 04:02:41 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 05:32:55 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int			ft_isspace(int c);
 /*
  * stdlib.h
  */
+int			ft_atoi(const char *s);
 long long	ft_atoll(const char *s);
 
 #endif

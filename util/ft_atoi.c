@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoll.c                                         :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 18:56:14 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 05:26:13 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/23 05:25:00 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/23 05:32:46 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
-long long	ft_atoll(const char *s)
+int	ft_atoi(const char *s)
 {
-	unsigned long long	val;
-	int					sym;
+	unsigned int	val;
+	int				sym;
 
 	val = 0;
 	sym = 1;
@@ -28,9 +28,5 @@ long long	ft_atoll(const char *s)
 		val *= 10;
 		val += *s++ - '0';
 	}
-	if ((val >= 9223372036854775807LL) && sym == 1)
-		return (-1);
-	if ((val > 9223372036854775807LL) && sym == -1)
-		return (0);
 	return (sym * val);
 }
