@@ -6,23 +6,19 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:46:41 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/12 02:50:29 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/22 20:25:34 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
+#ifndef  PHILO_H
 # define PHILO_H
 
 # include <stdio.h>
-# include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
 # include <limits.h>
-# include "utils.h"
-
-//will be removed before evaluating
-# include <string.h>
+# include "utilx.h"
 
 # define TRUE 1
 # define FALSE 0
@@ -44,12 +40,14 @@ const static char	*g_msg[5] = \
 	"\033[0;36m is thinking\033[0;0m", \
 	"\033[0;31m died\033[0;0m"\
 };
+
 typedef struct s_time
 {
 	struct timeval	tp;
 	double			start;
 	double			current;
 }				t_time;
+
 typedef enum  e_state
 {
 	STATE_ONE_FORK,

@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:34:23 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/09 21:26:00 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/22 20:21:12 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef  __UTIL_H__
+# define __UTIL_H__
 
 # include <stdlib.h>
+/*
+ *	string.h
+ */
+size_t		ft_strlen(const char *s);
+size_t		ft_strchr(const char *s, int c);
+size_t		ft_strspn(const char *s, const char *charset);
 
 /*
-** ft_%.c
-*/
-int				ft_isintf(char *str);
-int				ft_iterargv(int ac, char *av[], int (isfptr(char *)));
-int				ft_iternary(int d, int a, int b);
-void			*ft_pternary(int d, void *a, void *b);
+ *  cytpe.h
+ */
+int			ft_isdigit(int c);
+int			ft_isspace(int c);
 
 /*
-** utils.c
-** Functions used in previous projects
-*/
-unsigned long	ft_strlen(const char *s);
-int				ft_issign(char c);
-int				ft_isdigit(char c);
-int				ft_isdigits(char *str);
-long long		ft_atoll(const char *str);
+ * stdlib.h
+ */
+long long	ft_atoll(const char *s);
 
 #endif

@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ternary.c                                       :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 18:49:30 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/06 21:34:38 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/22 19:17:10 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/22 20:22:24 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "utilx.h"
 
-/*
-** In 42school, ternary operator is not allowed.
-*/
-int		ft_iternary(int d, int a, int b)
+size_t	ft_strspn(const char *s, const char *charset)
 {
-	if (d != 0)
-		return (b);
-	return (a);
-}
+	const char	*p;
 
-void	*ft_pternary(int d, void *a, void *b)
-{
-	if (d != 0)
-		return (b);
-	return (a);
+	p = s;
+	while (*p)
+	{
+		if (!ft_strchr(charset, *p))
+			break ;
+		++p;
+	}
+	return (p - s);
 }

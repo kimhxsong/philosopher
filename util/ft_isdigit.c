@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iterargv.c                                      :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 02:25:02 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 13:58:18 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/22 17:38:19 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/22 20:22:45 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "util.h"
 
-/*
-** ft_iterargv()
-** Iterate over argument vetors as argument to is_functions()
-*/
-int	ft_iterargv(int ac, char *av[], int (isfptr(char *)))
+int	ft_issign(int c)
 {
-	int	i;
-
-	i = 1;
-	while (isfptr(av[i]) == 1)
-		i++;
-	if (i != ac)
-		return (-1);
-	return (0);
+	return ((unsigned char )c == '+' || (unsigned char)c == '-');
 }
