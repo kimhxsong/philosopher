@@ -6,20 +6,21 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 02:28:30 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 04:35:30 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 05:13:52 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-#include "philo_error.h"
+#include "philo.h"
 
 int main(void)
 {
 	for(int i = 0; i < 3; i++)
-		ft_perror("test", g_err, i);
-	ft_perror(NULL, g_err, 0);
-	ft_perror("test", NULL, 0);
-	ft_perror("test", g_err, -1);
-	ft_perror("test", NULL, -1);
+		ft_error("test", g_err, i);
+	//expect NO SEGV
+	ft_error(NULL, g_err, 0);
+	//expect SEGV
+	ft_error("test", NULL, 0);
+	ft_error("test", g_err, -1);
+	ft_error("test", NULL, -1);
 	return (0);
 }

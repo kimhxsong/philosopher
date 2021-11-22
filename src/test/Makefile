@@ -6,7 +6,7 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/11/23 04:32:56 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/11/23 05:03:35 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_strlen.o \
 			ft_strspn.o \
 			ft_ternary.o \
-			ft_perror.o)
+			ft_error.o)
 
 .PHONY:		all
 all:		test_error

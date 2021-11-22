@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_error.h                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 21:20:38 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 05:13:31 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/23 04:59:47 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/23 05:04:49 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  PHILO_ERROR_H
-# define PHILO_ERROR_H
+#include "philo_error.h"
 
-#include "philo.h"
-
-const static char *g_err[3] = \
+void	parse_error(int errnum)
 {
-	"too few arguments or too many arguments\n", \
-	"not in int format. \"[-,+][n zeros][int_min ~ int_max]\"\n", \
-	"argument value too small or negative\n"\
-};
-
-void	parse_error(int errnum);
-
-#endif
+	ft_error("parse", g_err, errnum);
+}
