@@ -6,7 +6,7 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/11/22 21:41:54 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/11/23 03:38:34 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJS	= $(addprefix $(OBJDIR)/, \
 			print.o \
 			time.o \
 			watch.o)
-OBJS	+= $(addprefix $(UTILDIR)/, \
+OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_atoll.o \
 			ft_isdigit.o \
 			ft_isintf.o \
