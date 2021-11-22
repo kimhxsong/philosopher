@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/12 14:24:36 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/22 20:44:55 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 **	routine_dining()
 **	A Routine for the Dining Philosopher
 */
-
-
-
 static int	get_forks(t_private *p, t_shared *s)
 {
 	pthread_mutex_t	*first;
@@ -69,7 +66,7 @@ static int do_sleeping_and_thinking(t_private *p, t_shared *s)
 {
 	if (p->state == STATE_SLEEPING && print_state(p, s) == SUCCESS)
 	{
-		if (p->num_of_eat > s->info.max_eat_number)
+		if (p->num_of_eat > (int)s->info.max_eat_number)
 			p->state = STATE_FULL;
 		pthread_mutex_unlock(&s->fork[p->second]);
 		pthread_mutex_unlock(&s->fork[p->first]);
@@ -89,8 +86,8 @@ static int do_sleeping_and_thinking(t_private *p, t_shared *s)
 static int	do_ordering(t_private *p, t_shared *s)
 {
 	int	res;
-	int	q;
-	
+
+	res = 0;
 	// printf("THREAD[%d] KEY LOCKED F[%d], S[%d]\n", p->id, p->first, p->second);
 	if (p->id % 2 == 0)
 		res = get_forks(p, s) || get_forks(p, s);
@@ -103,7 +100,6 @@ void	*routine_dining(void *args)
 {
 	t_private	*p;
 	t_shared	*s;
-	int			res;
 
 	p = &((t_args *)args)->p;
 	s = ((t_args *)args)->s;
@@ -114,7 +110,6 @@ void	*routine_dining(void *args)
 		pthread_mutex_unlock(&s->key.order);
 		return (NULL);
 	}
-	res = 0;
 	// printf("[%d] after ordering \n", p->id);
 	while (s->finish == 0)
 	{

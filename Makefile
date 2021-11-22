@@ -6,7 +6,7 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/11/22 20:29:54 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/11/22 21:41:54 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ OBJS	+= $(addprefix $(UTILDIR)/, \
 			ft_strchr.o \
 			ft_strlen.o \
 			ft_strspn.o \
-			ft_ternary.o)
+			ft_ternary.o \
+			ft_perror.o)
 
 NAME = philosopher
 

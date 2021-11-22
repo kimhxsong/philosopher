@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:59:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/12 02:51:51 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/22 21:14:17 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@
 ** init_shared()
 ** Initialize t_shared struct with argument vectors
 */
+static int	init_shared(int ac, char *av[], t_shared *shared);
+
+/*
+** parse()
+** Check if vectors are valid integer formats
+** Parse argument to t_shared variable
+*/
+int	parse(t_shared *shared, int ac, char *av[])
+{
+	int	idx;
+
+	if (ac != 5 && ac != 6)
+		return (1);
+	else if (ft_iterargv(ac, av, ft_isintf) == FAIL)
+		return (2);
+	else if (init_shared(ac, av, shared) == FAIL)
+		return (3);
+	else
+		return (0);
+}
+
 static int	init_shared(int ac, char *av[], t_shared *shared)
 {
 	int	res;
@@ -42,21 +63,3 @@ static int	init_shared(int ac, char *av[], t_shared *shared)
 	return (SUCCESS);
 }
 
-/*
-** parse()
-** Check if vectors are valid integer formats
-** Parse argument to t_shared variable
-*/
-int	parse(t_shared *shared, int ac, char *av[])
-{
-	int	idx;
-
-	if (ac != 5 && ac != 6)
-		return (1);
-	else if (ft_iterargv(ac, av, ft_isintf) == FAIL)
-		return (2);
-	else if (init_shared(ac, av, shared) == FAIL)
-		return (3);
-	else
-		return (0);
-}

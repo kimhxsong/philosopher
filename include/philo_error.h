@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo_error.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 17:35:10 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/22 21:16:09 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/22 21:20:38 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/22 21:50:48 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef  PHILO_ERROR_H
+# define PHILO_ERROR_H
+
 #include "philo.h"
-/* will be removed */
-#include <string.h>
 
+//const static char *g_err[3] = \
+//{
+//	"parse: too few arguments or too many arguments\n", \
+//	"parse: not in int format. \"[-,+][n zeros][int_min ~ int_max]\"\n", \
+//	"parse: argument value too small or negative"\
+//};
 
-static void	init_private(t_args *args, t_shared *s, int i);
-static int	init_args(t_args **args, t_shared *s);
-int	simul(t_shared *s);
+void	ft_perror(const char *s, const char *strset[], int i);
 
-void print_glstrarr(int errnum)
-{
-	write(2, g_msg[errnum], ft_strlen(g_msg[errnum]));
-	return (errnum);
-}
-
-int	main(int argc, char *argv[])
-{
-	t_shared	s;
-
-	return (simulate(parse(&s, argc, argv)));
-}
+#endif
