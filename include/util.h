@@ -6,19 +6,20 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:34:23 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/22 20:21:12 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 04:02:41 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  __UTIL_H__
-# define __UTIL_H__
+#ifndef  UTIL_H
+# define UTIL_H
 
 # include <stdlib.h>
+# include <unistd.h>
 /*
  *	string.h
  */
 size_t		ft_strlen(const char *s);
-size_t		ft_strchr(const char *s, int c);
+char		*ft_strchr(const char *s, int c);
 size_t		ft_strspn(const char *s, const char *charset);
 
 /*

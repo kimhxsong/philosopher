@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/22 21:50:33 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 03:01:29 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ typedef enum  e_state
 	STATE_DIED,
 	STATE_FULL
 }	t_state;
+
+typedef struct s_info
+{
+	int		number_of_philo;
+	int		time_of_sleeping;
+	int		time_of_eating;
+	int		time_to_die;
+	int		max_eat_number;
+}					t_info;
 
 typedef struct s_private
 {
@@ -67,19 +76,8 @@ typedef struct s_args
 	t_private		p;
 }					t_args;
 
-typedef struct s_info
-{
-	int				number_of_philo;
-	int				time_of_sleeping;
-	int				time_of_eating;
-	int				time_to_die;
-	unsigned int	max_eat_number;
-}					t_info;
 
 
-
-
-
-int			parse(t_shared *shared, int ac, char *av[]);
+t_shared *parse(t_shared *shared, int argc, char *argv[]);
 
 #endif
