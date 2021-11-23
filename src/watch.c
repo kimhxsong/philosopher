@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:17:19 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/12 18:26:34 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 06:37:41 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	*routine_watch(void	*args)
 			pthread_mutex_lock(&s->key.print);
 			p->time_of_thread = p->time_to_die;
 			p->state = STATE_DIED;
-			if (s->finish == FALSE)
+			if (s->finish == 0)
 				printf("%d\t%d\t%s\n", p->time_of_thread, p->id, (char *)g_msg[STATE_DIED]);
-			s->finish = TRUE;
+			s->finish = 1;
 			pthread_mutex_unlock(&s->key.print);
 			pthread_mutex_unlock(&s->key.death);
 			break ;

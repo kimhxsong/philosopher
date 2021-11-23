@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/22 20:44:55 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 09:28:38 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	get_forks(t_private *p, t_shared *s)
 		p->time_of_thread += q * s->info.time_of_eating;
 		p->state = STATE_ONE_FORK;
 	}
-	else if (p->state == STATE_ONE_FORK && print_state(p, s) == SUCCESS)
+	else if (p->state == STATE_ONE_FORK && print_state(p, s) == 0)
 	{
 		pthread_mutex_lock(second);
 		// printf("THREAD[%d] EATING[%d]\n", p->id, p->second);
@@ -41,13 +41,13 @@ static int	get_forks(t_private *p, t_shared *s)
 		p->state = STATE_EATING;
 	}
 	else
-		return (FAIL);
-	return (SUCCESS);
+		return (-1);
+	return (0);
 }
 
 static int	do_eating(t_private *p, t_shared *s)
 {
-	if (p->state == STATE_EATING && print_state(p, s) == SUCCESS)
+	if (p->state == STATE_EATING && print_state(p, s) == 0)
 	{	
 		p->time_to_die = p->time_of_thread + s->info.time_to_die;
 		p->end_of_eating = p->time_of_thread + s->info.time_of_eating;
@@ -58,13 +58,13 @@ static int	do_eating(t_private *p, t_shared *s)
 		p->state = STATE_SLEEPING;
 	}
 	else
-		return (FAIL);
-	return (SUCCESS);
+		return (-1);
+	return (0);
 }
 
 static int do_sleeping_and_thinking(t_private *p, t_shared *s)
 {
-	if (p->state == STATE_SLEEPING && print_state(p, s) == SUCCESS)
+	if (p->state == STATE_SLEEPING && print_state(p, s) == 0)
 	{
 		if (p->num_of_eat > (int)s->info.max_eat_number)
 			p->state = STATE_FULL;
@@ -77,10 +77,10 @@ static int do_sleeping_and_thinking(t_private *p, t_shared *s)
 		p->state = STATE_THINKING;
 	}
 	else
-		return (FAIL);
-	if (p->state == STATE_THINKING && print_state(p, s) == FAIL)
-		return (FAIL);
-	return (SUCCESS);
+		return (-1);
+	if (p->state == STATE_THINKING && print_state(p, s) == -1)
+		return (-1);
+	return (0);
 }
 
 static int	do_ordering(t_private *p, t_shared *s)
@@ -106,7 +106,7 @@ void	*routine_dining(void *args)
 	// printf("[%d] routine start\n", p->id);
 	if(do_ordering(p, s) != 0)
 	{
-		s->finish = TRUE;
+		s->finish = 1;
 		pthread_mutex_unlock(&s->key.order);
 		return (NULL);
 	}

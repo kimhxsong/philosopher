@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:47:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/12 02:46:35 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 06:37:17 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	init_time(t_shared *shared)
 	{
 		shared->time.start = 1e+3 * shared->time.tp.tv_sec \
 							+ 1e-3 * shared->time.tp.tv_usec;
-		return (SUCCESS);
+		return (0);
 	}
-	return (FAIL);
+	return (-1);
 }
 
 /*

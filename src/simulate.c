@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:15:37 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/22 21:15:54 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 06:48:20 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_private(t_args *args, t_shared *s, int i)
 	
 	first = 0;
 	second = 0;
-	memset((void *)args, 0, sizeof(args));
+	ft_memset((void *)args, 0, sizeof(args));
 	args->s = s;
 	args->p.id = i;
 	args->p.time_to_die = s->info.time_to_die;
@@ -51,7 +51,7 @@ static int	init_args(t_args **args, t_shared *s)
 	s->fork = (pthread_mutex_t *) \
 			   malloc(sizeof(pthread_mutex_t) * (s->info.number_of_philo + 1));
 	if (*args == NULL || s->fork == NULL)
-		return (FAIL);
+		return (-1);
 	s->fork[s->info.number_of_philo] = s->fork[0];
 	i = s->info.number_of_philo;
 	while (--i >= 0)
@@ -67,8 +67,9 @@ static int	init_args(t_args **args, t_shared *s)
 	return (res);
 }
 
-int	simul(t_shared *s)
+int	simulate(t_shared *s)
 {
+	return (0);
 	t_args		*args;
 	pthread_t	task;
 	int			i;
@@ -84,14 +85,14 @@ int	simul(t_shared *s)
 		   || pthread_create(&task, NULL, routine_watch, (void *)&args[i]) \
 		   || pthread_detach(task);
 	}
-	res = (init_time(s) == FAIL);
-	while (res == 0 && s->finish == FALSE)
+	res = (init_time(s) == -1);
+	while (res == 0 && s->finish == 1)
 	{
 		s->time.current = 1e+3 * s->time.tp.tv_sec \
 							 + 1e-3 * s->time.tp.tv_usec - s->time.start;
 		res = usleep(500) || gettimeofday(&s->time.tp, NULL);
 	}
 	if (res == 0)
-		return (SUCCESS);
-	return (FAIL);
+		return (0);
+	return (-1);
 }
