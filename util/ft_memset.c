@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 17:38:19 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 06:58:42 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/23 06:33:12 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/23 06:35:20 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
-int	ft_isdigit(int c)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	return ((unsigned char )c >= '0' && (unsigned char)c <= '9');
+	unsigned char	*p;
+
+	p = b;
+	while (len > 0)
+	{
+		*p++ = (unsigned char)c;
+		--len;
+	}
+	return (b);
 }

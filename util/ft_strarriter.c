@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 02:25:02 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 03:45:39 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 09:23:43 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@
  * @param	int f(const char *))
  * @return	int						: if success then returns 0 else returns -1
  */
-int	ft_strarriter(size_t size, const char *strarr[], int isfp(const char *))
+int	ft_strarriter(size_t size, char *strarr[], int isfp(const char *))
 {
-	while (size-- > 0)
+	size_t	i;
+	
+	i = 0;
+	while (++i < size)
 	{
-		if (!isfp(*strarr))
+		if (!isfp(strarr[i]))
 			return (-1);
-		*strarr += 1;
 	}
 	return (0);
 }
