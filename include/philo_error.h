@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:20:38 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 05:13:31 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 06:11:40 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ const static char *g_err[3] = \
 	"argument value too small or negative\n"\
 };
 
-void	parse_error(int errnum);
+void	parse_error(int nerr);
 
 #endif

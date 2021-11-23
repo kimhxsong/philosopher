@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:17:25 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/22 21:50:38 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/23 06:12:27 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ const static char	*g_msg[5] = \
 	"\033[0;31m died\033[0;0m"\
 };
 
-
-
 int			print_state(t_private *p, t_shared *s);
+int			simulate(t_shared *s);
 
 /*
 **	routines in time.c, dining.c and watch.c
