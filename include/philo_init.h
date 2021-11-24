@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 17:27:15 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:19:27 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,25 @@ typedef struct s_key
 	pthread_mutex_t	order;
 }	t_key;
 
-typedef struct s_time
+typedef struct s_clock
 {
 	struct timeval	tp;
 	double			start;
 	double			current;
-}	t_time;
+}	t_clock;
 
 typedef struct s_shared {
 	pthread_mutex_t	*fork;
-	t_time			time;
+	t_clock			clock;
 	t_key			key;
 	t_info			info;
-	int				finish;
+	int				is_finished;
+	int				errnum;
 }	t_shared;
 
 typedef struct s_data {
 	t_shared	*s;
 	t_private	p;
-	int			errnum;
 }	t_data;
 
 t_shared	*init(t_shared *shared, int argc, char **argv);

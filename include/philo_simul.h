@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:17:25 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 17:29:46 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 19:07:59 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ const static char	*g_msg[5] = {
 	"\033[0;31m died\033[0;0m"
 };
 
-int			simulate(t_shared *s);
+int			simul(t_data **s);
 void		*routine_clock(void *data);
 void		*routine_dining(void *data);
-void		*routine_watch(void *data);
+void		*routine_detect(void *data);
 int			print_state(t_data *data);
 
 #endif

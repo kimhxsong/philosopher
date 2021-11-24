@@ -6,58 +6,31 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 21:47:09 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 06:37:17 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:19:04 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*
-**	init_time()
-**	Initialize start-time of clock-thread
-*/
-int	init_time(t_shared *shared)
+/**
+ * init_clcok(): Initialize start-time of clock-thread.
+ * ----------------------------------------------------------------------------
+ */
+int	init_clock(t_clock *clock)
 {
-	if (shared != NULL && (gettimeofday(&shared->time.tp, NULL) == 0))
-	{
-		shared->time.start = 1e+3 * shared->time.tp.tv_sec \
-							+ 1e-3 * shared->time.tp.tv_usec;
-		return (0);
-	}
-	return (-1);
+	if (gettimeofday(&clock->tp, NULL) != SUCCESS)
+		return (FAIL);
+	clock->start = 1e+3 * clock->tp.tv_sec + 1e-3 * clock->tp.tv_usec;
+	return (SUCCESS);
 }
 
-/*
-**	update_time()
-**	Update current-time of clock-thread.
-**	time_of_main is updated about every 0.2ms.
+/**
+ * update_clcok(): Update current-time of clock-thread.
+ * ----------------------------------------------------------------------------
 */
-void	update_time(t_shared *shared)
+void	update_clock(t_clock *clock)
 {
-	shared->time.current = 1e+3 * shared->time.tp.tv_sec \
-								+ 1e-3 * shared->time.tp.tv_usec \
-								- shared->time.start;
+	clock->current = 1e+3 * clock->tp.tv_sec + 1e-3 * clock->tp.tv_usec
+		- clock->start;
+	return ;
 }
-
-/*
-**	routine_clock()
-**	a routine for a clock-thread
-*/
-//void	*routine_clock(void *shared)
-//{
-//	t_shared	*s;
-
-//	s = (t_shared *)shared;
-//	if (s != NULL && pthread_mutex_lock(&s->key.finish) == 0)
-//	{
-		
-//		if (init_time(s) == SUCCESS)
-//		{
-//			while (s->info.someone_died != TRUE \
-//					|| update_time(s) == SUCCESS)
-//				continue ;
-//		}
-//	}
-//	//pthread_mutex_unlock(&s->key.finish);
-//	return (NULL);
-//}
