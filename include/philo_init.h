@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_parse.h                                      :+:      :+:    :+:   */
+/*   philo_init.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 08:29:12 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:27:15 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  PHILO_PARSE_H
-# define PHILO_PARSE_H
+#ifndef  PHILO_INIT_H
+# define PHILO_INIT_H
 
-#include "philo.h"
+# include "philo.h"
 
-typedef enum  e_state {
+typedef enum e_state {
+	STATE_THINKING,
 	STATE_ONE_FORK,
 	STATE_EATING,
 	STATE_SLEEPING,
-	STATE_THINKING,
 	STATE_DIED,
 	STATE_FULL
 }	t_state;
@@ -68,11 +68,14 @@ typedef struct s_shared {
 	int				finish;
 }	t_shared;
 
-typedef struct s_args {
+typedef struct s_data {
 	t_shared	*s;
 	t_private	p;
-}	t_args;
+	int			errnum;
+}	t_data;
 
-t_shared	*parse(t_shared *s, int ac, char *av[]);
+t_shared	*init(t_shared *shared, int argc, char **argv);
+int			init_shared(t_shared *shared, int argc, char **argv);
+int			init_private(t_data **data, t_shared *shared);
 
 #endif

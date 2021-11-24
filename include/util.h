@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:34:23 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 06:35:38 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:21:45 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-/*
+
+/**
  *	string.h
  */
 size_t		ft_strlen(const char *s);
@@ -23,13 +24,13 @@ char		*ft_strchr(const char *s, int c);
 size_t		ft_strspn(const char *s, const char *charset);
 void		*ft_memset(void *b, int c, size_t len);
 
-/*
+/**
  *  cytpe.h
  */
 int			ft_isdigit(int c);
 int			ft_isspace(int c);
 
-/*
+/**
  * stdlib.h
  */
 int			ft_atoi(const char *s);
