@@ -6,13 +6,13 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 04:59:47 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 05:04:49 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 11:22:33 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_error.h"
 
-void	parse_error(int errnum)
+void	parse_error(int nerr)
 {
-	ft_error("parse", g_err, errnum);
+	ft_error("parse", g_err, nerr);
 }

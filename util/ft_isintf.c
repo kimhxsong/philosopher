@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 20:33:43 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/23 08:36:46 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 11:21:53 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ft_isintf(const char *s)
 	if (!s)
 		return (0);
 	s += (ft_strchr("+-", *s) != NULL);
+	if (*s == '\0')
+		return (0);
 	s += ft_strspn(s, "0");
 	if (ft_strlen(s) > 10)
 		return (0);
