@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   watch.c                                            :+:      :+:    :+:   */
+/*   simul_routine_detect.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:17:19 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 17:53:34 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:20:36 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*
-**	routine_watch()
-**	A routine for the thread \
-**	that watches the philosopher's death in 1ms increments.
-*/
-void	*routine_watch(void	*args)
+void	*routine_detect(void *data)
 {
-	t_private	*p;
 	t_shared	*s;
+	t_private	*p;
 
-	p = &((t_args *)args)->p;
-	s = ((t_args *)args)->s;
-	while (s->info.finish == 0 && usleep(200) == 0)
+	s = ((t_data *)data)->s;
+	p = &((t_data *)data)->p;
+	while (s->is_finished == FALSE)
 	{
-		if (s->info.time_of_main > p->time_to_die)
+		usleep(500);
+		if (s->clock.current > p->time_to_die)
 		{
-			p->time_of_thread = s->info.time_to_die;
+			pthread_mutex_lock(&s->key.death);
+			pthread_mutex_lock(&s->key.print);
+			p->time_of_thread = p->time_to_die;
 			p->state = STATE_DIED;
-			print_state(p, s);
+			if (s->is_finished == FALSE)
+				printf("%d\t%d\t%s\n", p->time_of_thread, p->id, (char *)g_msg[STATE_DIED]);
+			s->is_finished = TRUE;
+			pthread_mutex_unlock(&s->key.print);
+			pthread_mutex_unlock(&s->key.death);
+			break ;
 		}
 	}
-	return (NULL);
+	pthread_mutex_unlock(&s->fork[p->second]);
+	pthread_mutex_unlock(&s->fork[p->first]);
 }

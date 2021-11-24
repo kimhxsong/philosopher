@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iterargv.c                                      :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 02:25:02 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/10/10 13:58:18 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/22 19:17:10 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/22 20:22:24 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "utilx.h"
 
-/*
-** ft_iterargv()
-** Iterate over argument vetors as argument to is_functions()
-*/
-int	ft_iterargv(int ac, char *av[], int (isfptr(char *)))
+size_t	ft_strspn(const char *s, const char *charset)
 {
-	int	i;
+	const char	*p;
 
-	i = 1;
-	while (isfptr(av[i]) == 1)
-		i++;
-	if (i != ac)
-		return (-1);
-	return (0);
+	p = s;
+	while (*p)
+	{
+		if (!ft_strchr(charset, *p))
+			break ;
+		++p;
+	}
+	return (p - s);
 }
