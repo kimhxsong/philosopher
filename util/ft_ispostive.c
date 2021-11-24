@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_ispostive.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 04:59:47 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 17:25:02 by hyeonsok         ###   ########.fr       */
+/*   Created: 2021/11/24 15:25:34 by hyeonsok          #+#    #+#             */
+/*   Updated: 2021/11/24 17:33:49 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_error.h"
-
-void	init_error(int errnum)
+static int	is_positive(int	num)
 {
-	ft_error("init", g_err, errnum);
+	return (num > 0);
 }
