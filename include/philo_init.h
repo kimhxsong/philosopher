@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 18:19:27 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 16:36:19 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ typedef struct s_clock
 }	t_clock;
 
 typedef struct s_shared {
-	pthread_mutex_t	*fork;
+	pthread_mutex_t	*forks;
 	t_clock			clock;
 	t_key			key;
-	t_info			info;
 	int				is_finished;
 	int				errnum;
+	int				info[5];
 }	t_shared;
 
 typedef struct s_data {
@@ -74,8 +74,6 @@ typedef struct s_data {
 	t_private	p;
 }	t_data;
 
-t_shared	*init(t_shared *shared, int argc, char **argv);
-int			init_shared(t_shared *shared, int argc, char **argv);
-int			init_private(t_data **data, t_shared *shared);
+t_data	*init(t_shared *shared, int argc, char **argv);
 
 #endif

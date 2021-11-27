@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:17:27 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 17:26:58 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/27 01:39:59 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "philo.h"
 
-int		init_time(t_shared *shared);
-void	update_time(t_shared *shared);
+int		init_clock(t_clock *clock);
+void	update_clock(t_clock *clock);
 
 #endif

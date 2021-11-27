@@ -6,35 +6,36 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:15:37 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 19:09:34 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/27 01:41:26 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void *simiul_start_threads(t_data **data)
+static int	simul_start_threads(t_data *data)
 {
 	pthread_t	task;
 	int			num_of_philos;
 	int			i;
 	
-	num_of_philos = data[0]->s->info.number_of_philo;
+	num_of_philos = data->s->info.number_of_philo;
 	i = -1;
 	while (++i < num_of_philos)
 	{
-		if (pthread_mutex_lock(&data[0]->s->key.order)
-			|| pthread_create(&task, 0, routine_dining, (void *)&data[i])
+		if (pthread_mutex_lock(&data->s->key.order)
+			|| pthread_create(&task, 0, routine_dining, (void *)&data)
 			|| pthread_detach(task)
-			|| pthread_create(&task, 0, routine_detect, (void *)&data[i])
+			|| pthread_create(&task, 0, routine_detect, (void *)&data)
 			|| pthread_detach(task))
 			return (FAIL);
+		++data;
 	}
 	return (SUCCESS);
 }
 
-static int	simiul_start_clock(t_shared *shared)
+static int	simul_start_clock(t_shared *shared)
 {
-	if (init_clock(shared) == FAIL)
+	if (init_clock(&shared->clock) == FAIL)
 		return (FAIL);
 	while (shared->is_finished == FALSE)
 	{
@@ -46,7 +47,7 @@ static int	simiul_start_clock(t_shared *shared)
 	return (SUCCESS);
 }
 
-int	simul(t_data **data)
+int	simul(t_data *data)
 {
 	if (!data)
 	{
@@ -54,5 +55,5 @@ int	simul(t_data **data)
 		return (FAIL);
 	}
 	return (simul_start_threads(data) == FAIL
-		|| simul_start_clock(data[0]->s) == FAIL);
+		|| simul_start_clock(data->s) == FAIL);
 }

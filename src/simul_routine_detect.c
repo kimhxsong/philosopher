@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:17:19 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 20:20:36 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/27 01:34:45 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ void	*routine_detect(void *data)
 	}
 	pthread_mutex_unlock(&s->fork[p->second]);
 	pthread_mutex_unlock(&s->fork[p->first]);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/11/23 08:52:44 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/11/30 16:40:54 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,19 +19,21 @@ SRCDIR := ./src
 UTILDIR := ./util
 OBJDIR := ./obj
 OBJS	= $(addprefix $(OBJDIR)/, \
-			dining.o \
 			error.o \
+			init.o \
 			main.o \
-			parse.o \
-			print.o \
-			simulate.o \
-			time.o \
-			watch.o)
+			simul_print.o \
+			simul_routine_detect.o \
+			simul_routine_dining.o \
+			validate.o \
+			simul.o \
+			time.o)
 OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_atoi.o \
 			ft_atoll.o \
 			ft_isdigit.o \
 			ft_isintf.o \
+			ft_ispostive.o \
 			ft_isspace.o \
 			ft_memset.o \
 			ft_strarriter.o \
