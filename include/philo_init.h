@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 18:11:54 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:23:59 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ typedef struct s_info {
 
 typedef struct s_private
 {
-	t_state	state;
-	int		id;
-	int		second;
-	int		first;
-	int		time_of_thread;
-	int		time_to_die;
-	int		num_of_eat;
-	int		end_of_eating;
-	int		end_of_sleeping;
+	int				id;
+	t_state			state;
+	pthread_mutex_t	*second;
+	pthread_mutex_t *first;
+	int				time_of_thread;
+	int				time_to_die;
+	int				num_of_eat;
+	int				end_of_eating;
+	int				end_of_sleeping;
 }	t_private;
 
 typedef struct s_key

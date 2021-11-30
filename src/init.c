@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:50:43 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 18:50:07 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:24:47 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static void init_data_and_private(t_data *data, t_shared *shared)
 		data[i].s = shared;
 		data[i].p.id = i + 1;
 		data[i].p.time_to_die = shared->info[1];
-		data[i].p.first = i;
-		data[i].p.second = (i + 1) % num_of_philos;
+		data[i].p.first = &shared->forks[i];
+		data[i].p.second = &shared->forks[(i + 1) % num_of_philos];
 		data[i].p.state = STATE_THINKING;
 	}
 }
