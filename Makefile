@@ -6,7 +6,7 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/11/30 16:40:54 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/11/30 23:18:00 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,7 @@ OBJS	= $(addprefix $(OBJDIR)/, \
 			simul_routine_detect.o \
 			simul_routine_dining.o \
 			validate.o \
-			simul.o \
-			time.o)
+			simul.o)
 OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_atoi.o \
 			ft_atoll.o \
