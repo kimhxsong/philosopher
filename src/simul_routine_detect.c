@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:17:19 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/27 01:34:45 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:26:22 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*routine_detect(void *data)
 
 	s = ((t_data *)data)->s;
 	p = &((t_data *)data)->p;
-	while (s->is_finished == FALSE)
+	while (!s->is_finished)
 	{
 		usleep(500);
 		if (s->clock.current > p->time_to_die)
@@ -28,7 +28,7 @@ void	*routine_detect(void *data)
 			pthread_mutex_lock(&s->key.print);
 			p->time_of_thread = p->time_to_die;
 			p->state = STATE_DIED;
-			if (s->is_finished == FALSE)
+			if (!s->is_finished)
 				printf("%d\t%d\t%s\n", p->time_of_thread, p->id, (char *)g_msg[STATE_DIED]);
 			s->is_finished = TRUE;
 			pthread_mutex_unlock(&s->key.print);
@@ -36,7 +36,7 @@ void	*routine_detect(void *data)
 			break ;
 		}
 	}
-	pthread_mutex_unlock(&s->fork[p->second]);
-	pthread_mutex_unlock(&s->fork[p->first]);
+	pthread_mutex_unlock(&s->forks[p->second]);
+	pthread_mutex_unlock(&s->forks[p->first]);
 	return (NULL);
 }

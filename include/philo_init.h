@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 16:36:19 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 18:11:54 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "philo.h"
 
 typedef enum e_state {
-	STATE_THINKING,
 	STATE_ONE_FORK,
 	STATE_EATING,
 	STATE_SLEEPING,
+	STATE_THINKING,
 	STATE_DIED,
 	STATE_FULL
 }	t_state;

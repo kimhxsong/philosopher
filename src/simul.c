@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:15:37 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/27 01:41:26 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:42:32 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,46 @@
 
 static int	simul_start_threads(t_data *data)
 {
-	pthread_t	task;
-	int			num_of_philos;
-	int			i;
+	pthread_t		task;
+	pthread_mutex_t	*order;
+	int				num_of_philos;
+	int				i;
 	
-	num_of_philos = data->s->info.number_of_philo;
+	order = &data->s->key.order;
+	num_of_philos = data->s->info[0];
 	i = -1;
 	while (++i < num_of_philos)
 	{
-		if (pthread_mutex_lock(&data->s->key.order)
-			|| pthread_create(&task, 0, routine_dining, (void *)&data)
+		if (pthread_mutex_lock(order)
+			|| pthread_create(&task, 0, routine_dining, (void *)&data[i])
 			|| pthread_detach(task)
-			|| pthread_create(&task, 0, routine_detect, (void *)&data)
+			|| pthread_create(&task, 0, routine_detect, (void *)&data[i])
 			|| pthread_detach(task))
-			return (FAIL);
-		++data;
+			return (-1);
 	}
-	return (SUCCESS);
+	return (0);
 }
 
-static int	simul_start_clock(t_shared *shared)
+static void	simul_start_clock(t_shared *shared)
 {
-	if (init_clock(&shared->clock) == FAIL)
-		return (FAIL);
-	while (shared->is_finished == FALSE)
+	t_clock	*clock;
+
+	clock = &shared->clock;
+	gettimeofday(&clock->tp, NULL);
+	clock->start = 1e+3 * clock->tp.tv_sec + 1e-3 * clock->tp.tv_usec;
+	while (!shared->is_finished)
 	{
-		shared->clock.current = 1e+3 * shared->clock.tp.tv_sec
-			+ 1e-3 * shared->clock.tp.tv_usec - shared->clock.start;
+		clock->current = 1e+3 * clock->tp.tv_sec + 1e-3
+			* clock->tp.tv_usec - clock->start;
 		usleep(500);
-		gettimeofday(&shared->clock.tp, NULL);
+		gettimeofday(&clock->tp, NULL);
 	}
-	return (SUCCESS);
 }
 
 int	simul(t_data *data)
 {
-	if (!data)
-	{
-		//TODO: Add error handling
-		return (FAIL);
-	}
-	return (simul_start_threads(data) == FAIL
-		|| simul_start_clock(data->s) == FAIL);
+	if (!data || simul_start_threads(data))
+		return (EXIT_FAILURE);
+	simul_start_clock(data->s);
+	return (EXIT_SUCCESS);
 }

@@ -6,12 +6,12 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 12:43:51 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 16:35:06 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/11/30 17:27:02 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  PHILO_TIME_H
-# define PHILO_TIME_H
+#ifndef  PHILO_VALIDATE_H
+# define PHILO_VALIDATE_H
 
 #include "philo.h"
 
