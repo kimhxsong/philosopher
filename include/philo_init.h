@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 22:23:59 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/01 20:02:19 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@ typedef enum e_state {
 	STATE_FULL
 }	t_state;
 
-typedef struct s_info {
-	int	number_of_philo;
-	int	time_of_sleeping;
-	int	time_of_eating;
-	int	time_to_die;
-	int	is_max_used;
-	int	max_eat_number;
-}	t_info;
-
 typedef struct s_private
 {
 	int				id;
@@ -49,8 +40,8 @@ typedef struct s_private
 typedef struct s_key
 {
 	pthread_mutex_t	print;
-	pthread_mutex_t	death;
 	pthread_mutex_t	order;
+	pthread_mutex_t	death;
 }	t_key;
 
 typedef struct s_clock
@@ -64,7 +55,7 @@ typedef struct s_shared {
 	pthread_mutex_t	*forks;
 	t_clock			clock;
 	t_key			key;
-	int				is_finished;
+	int				alive;
 	int				errnum;
 	int				info[5];
 }	t_shared;

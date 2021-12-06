@@ -6,12 +6,12 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/11/30 23:18:00 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/12/01 20:51:34 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = arch -x86_64 gcc
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra
 
 INCLUDES = -I ./include/
 
@@ -42,7 +42,7 @@ OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_ternary.o \
 			ft_error.o)
 
-NAME = philosopher
+NAME = philo
 
 .PHONY:		all
 all:		$(NAME)

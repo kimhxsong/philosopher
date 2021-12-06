@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:15:37 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 19:42:32 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/01 21:29:22 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 static int	simul_start_threads(t_data *data)
 {
 	pthread_t		task;
-	pthread_mutex_t	*order;
 	int				num_of_philos;
 	int				i;
 	
-	order = &data->s->key.order;
 	num_of_philos = data->s->info[0];
 	i = -1;
 	while (++i < num_of_philos)
 	{
-		if (pthread_mutex_lock(order)
+		if (pthread_mutex_lock(&data->s->key.order)
 			|| pthread_create(&task, 0, routine_dining, (void *)&data[i])
 			|| pthread_detach(task)
 			|| pthread_create(&task, 0, routine_detect, (void *)&data[i])
@@ -34,26 +32,29 @@ static int	simul_start_threads(t_data *data)
 	return (0);
 }
 
-static void	simul_start_clock(t_shared *shared)
+static void	simul_start_clock(t_data *data)
 {
 	t_clock	*clock;
 
-	clock = &shared->clock;
+	clock = &data->s->clock;
 	gettimeofday(&clock->tp, NULL);
 	clock->start = 1e+3 * clock->tp.tv_sec + 1e-3 * clock->tp.tv_usec;
-	while (!shared->is_finished)
+	while (data->s->alive > 0)
 	{
 		clock->current = 1e+3 * clock->tp.tv_sec + 1e-3
 			* clock->tp.tv_usec - clock->start;
-		usleep(500);
+		usleep(2000);
 		gettimeofday(&clock->tp, NULL);
 	}
 }
+
+// cleanup_data(data);
 
 int	simul(t_data *data)
 {
 	if (!data || simul_start_threads(data))
 		return (EXIT_FAILURE);
-	simul_start_clock(data->s);
+	simul_start_clock(data);
+	// cleanup_data(data);
 	return (EXIT_SUCCESS);
 }

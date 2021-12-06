@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:17:25 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/27 01:31:31 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/09 14:21:13 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int			simul(t_data *s);
 void		*routine_clock(void *data);
 void		*routine_dining(void *data);
 void		*routine_detect(void *data);
-int			print_state(t_data *data);
+void		print_state(t_data *data);
 
 #endif

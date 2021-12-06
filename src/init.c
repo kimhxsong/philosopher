@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:50:43 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/30 22:24:47 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/01 19:50:21 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	init_shared_mutexes(t_shared *shared)
 	int	i;
 	
 	num_of_philos = shared->info[0];
+	shared->alive = num_of_philos;
 	i = -1;
 	shared->forks = (pthread_mutex_t *)safe_malloc(num_of_philos
 		* sizeof(pthread_mutex_t));
@@ -41,8 +42,8 @@ static int	init_shared_mutexes(t_shared *shared)
 		if (pthread_mutex_init(&shared->forks[i], NULL) < 0)
 			return (-1);
 	}
-	if (pthread_mutex_init(&shared->key.death, NULL)
-		|| pthread_mutex_init(&shared->key.order, NULL)
+	if (pthread_mutex_init(&shared->key.order, NULL)
+		|| pthread_mutex_init(&shared->key.death, NULL)
 		|| pthread_mutex_init(&shared->key.print, NULL))
 		return (-1);
 	return (0);
