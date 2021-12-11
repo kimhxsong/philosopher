@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/01 21:43:42 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:36:09 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	do_sleeping_thinking(t_data *data)
 	data->p.end_of_sleeping = data->p.time_of_thread + data->s->info[3];
 	while (data->s->clock.current < data->p.end_of_sleeping)
 		usleep(2000);
+	if (data->p.state != STATE_SLEEPING)
+		return ;
 	data->p.time_of_thread = data->p.end_of_sleeping;
 	data->p.state = STATE_THINKING;
 	print_state(data);
@@ -51,12 +53,6 @@ static void	do_eating(t_data *data)
 	data->p.num_of_eat += 1;
 	data->p.time_to_die = data->p.time_of_thread + data->s->info[1];
 	data->p.end_of_eating = data->p.time_of_thread + data->s->info[2];
-	if (data->s->info[4] > 0 && data->p.num_of_eat == data->s->info[4])
-	{
-			pthread_mutex_lock(&data->s->key.death);
-			data->s->alive -= 1;
-			pthread_mutex_unlock(&data->s->key.death);
-	}
 	while(data->s->clock.current < data->p.end_of_eating)
 		usleep(2000);
 	data->p.time_of_thread = data->p.end_of_eating;
@@ -75,7 +71,7 @@ void	*routine_dining(void *args)
 
 	data = (t_data *)args;
 	do_ordering(data);
-	while (data->p.state != STATE_DIED && data->s->alive > 0)
+	while (data->p.state != STATE_DIED && data->s->alive == data->s->info[0])
 	{
 		get_forks(data);
 		do_eating(data);

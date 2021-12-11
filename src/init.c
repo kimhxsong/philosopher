@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:50:43 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/01 19:50:21 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/09 16:10:47 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static int	init_shared_info(int *info, int argc, char **argv)
 {
 	int	i;
 
-	info[4] = INT_MAX;
+	if (argc == 5)
+		info[4] = INT_MAX;
 	i = 0;
 	while (++i < argc)
 	{
