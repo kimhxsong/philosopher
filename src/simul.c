@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:15:37 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/01 21:29:22 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:53:44 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,25 @@ static void	simul_start_clock(t_data *data)
 	}
 }
 
-// cleanup_data(data);
+static void	simul_cleanup(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (++i < data->s->info[0])
+			pthread_mutex_destroy(&data->s->forks[i]);
+	free(data->s->forks);
+	pthread_mutex_destroy(&data->s->key.order);
+	pthread_mutex_destroy(&data->s->key.death);
+	pthread_mutex_destroy(&data->s->key.print);
+	free(data);
+}
 
 int	simul(t_data *data)
 {
 	if (!data || simul_start_threads(data))
 		return (EXIT_FAILURE);
 	simul_start_clock(data);
-	// cleanup_data(data);
+	simul_cleanup(data);
 	return (EXIT_SUCCESS);
 }
