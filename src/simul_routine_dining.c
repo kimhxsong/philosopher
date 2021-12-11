@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 14:36:09 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:04:52 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ static void	do_eating(t_data *data)
 		- data->p.time_of_thread) / data->s->info[2] * data->s->info[2];
 	print_state(data);
 	data->p.num_of_eat += 1;
+	pthread_mutex_lock(&data->s->key.death);
+	if (data->s->info[4] > 0 && data->p.num_of_eat == data->s->info[4])
+		data->s->hungry -= 1;
+	pthread_mutex_unlock(&data->s->key.death);
 	data->p.time_to_die = data->p.time_of_thread + data->s->info[1];
 	data->p.end_of_eating = data->p.time_of_thread + data->s->info[2];
 	while(data->s->clock.current < data->p.end_of_eating)
@@ -71,7 +75,8 @@ void	*routine_dining(void *args)
 
 	data = (t_data *)args;
 	do_ordering(data);
-	while (data->p.state != STATE_DIED && data->s->alive == data->s->info[0])
+	while (data->p.state != STATE_DIED && data->s->alive == data->s->info[0]
+		&& data->s->hungry > 0)
 	{
 		get_forks(data);
 		do_eating(data);

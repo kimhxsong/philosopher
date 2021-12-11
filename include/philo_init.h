@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/01 20:02:19 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:53:15 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_shared {
 	t_clock			clock;
 	t_key			key;
 	int				alive;
+	int				hungry;
 	int				errnum;
 	int				info[5];
 }	t_shared;

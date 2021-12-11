@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:50:43 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/09 16:10:47 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 15:00:53 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	init_shared_info(int *info, int argc, char **argv)
 	int	i;
 
 	if (argc == 5)
-		info[4] = INT_MAX;
+		info[4] = -1;
 	i = 0;
 	while (++i < argc)
 	{
@@ -35,6 +35,7 @@ static int	init_shared_mutexes(t_shared *shared)
 	
 	num_of_philos = shared->info[0];
 	shared->alive = num_of_philos;
+	shared->hungry = num_of_philos;
 	i = -1;
 	shared->forks = (pthread_mutex_t *)safe_malloc(num_of_philos
 		* sizeof(pthread_mutex_t));
