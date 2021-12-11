@@ -6,12 +6,12 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/12/09 14:27:44 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/12/11 15:11:42 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = arch -x86_64 gcc
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra
 
 INCLUDES = -I ./include/
 
@@ -39,7 +39,6 @@ OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_strchr.o \
 			ft_strlen.o \
 			ft_strspn.o \
-			ft_ternary.o \
 			ft_error.o)
 
 NAME = philo
