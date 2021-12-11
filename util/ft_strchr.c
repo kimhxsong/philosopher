@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:18:39 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/11/24 23:10:42 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:36:08 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	const char ch = c;
-	
+	const char	ch = c;
+
 	while (*s)
 	{
 		if (*s == ch)

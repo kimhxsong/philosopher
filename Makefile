@@ -6,11 +6,11 @@
 #    By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 17:26:41 by hyeonsok          #+#    #+#              #
-#    Updated: 2021/12/11 15:11:42 by hyeonsok         ###   ########.fr        #
+#    Updated: 2021/12/11 16:37:03 by hyeonsok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = arch -x86_64 gcc
+CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 
 INCLUDES = -I ./include/
@@ -19,7 +19,6 @@ SRCDIR := ./src
 UTILDIR := ./util
 OBJDIR := ./obj
 OBJS	= $(addprefix $(OBJDIR)/, \
-			error.o \
 			init.o \
 			main.o \
 			simul_print.o \
@@ -34,7 +33,6 @@ OBJS	+= $(addprefix $(OBJDIR)/, \
 			ft_isintf.o \
 			ft_ispostive.o \
 			ft_isspace.o \
-			ft_memset.o \
 			ft_strarriter.o \
 			ft_strchr.o \
 			ft_strlen.o \

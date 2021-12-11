@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:40:14 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 15:35:16 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:28:35 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define UTILX_H
 
 # include "util.h"
-
-
 
 /*
  * hyeonsok's libft extension

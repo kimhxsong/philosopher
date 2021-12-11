@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:50:43 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 15:56:46 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:30:41 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static int	init_shared_mutexes(t_shared *shared)
 {
 	int	num_of_philos;
 	int	i;
-	
+
 	num_of_philos = shared->info[0];
 	shared->alive = num_of_philos;
 	shared->hungry = num_of_philos;
 	i = -1;
 	shared->forks = (pthread_mutex_t *)custom_malloc(num_of_philos
-		* sizeof(pthread_mutex_t));
+			* sizeof(pthread_mutex_t));
 	if (!shared->forks)
 		return (-1);
 	while (++i < num_of_philos)
@@ -59,10 +59,10 @@ static int	init_shared_mutexes(t_shared *shared)
 	return (0);
 }
 
-static void init_data_and_private(t_data *data, t_shared *shared)
+static void	init_data_and_private(t_data *data, t_shared *shared)
 {
-	int		num_of_philos;
-	int 	i;
+	int	num_of_philos;
+	int	i;
 
 	num_of_philos = shared->info[0];
 	i = -1;
@@ -94,7 +94,7 @@ static void	init_cleanup(t_data *data, t_shared *shared)
 	free(data);
 }
 
-t_data *init(t_shared *shared, int argc, char **argv)
+t_data	*init(t_shared *shared, int argc, char **argv)
 {
 	t_data	*data;
 

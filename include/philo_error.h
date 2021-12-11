@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:20:38 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 15:57:32 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:26:57 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,5 @@ const static char	*g_err[4] = {
 	"argument value too small or negative\n",
 	"too many philosophers\n"
 };
-
-void	init_error(int errnum);
 
 #endif

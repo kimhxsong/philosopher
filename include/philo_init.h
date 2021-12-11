@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:16:58 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 14:53:15 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:27:39 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_private
 	int				id;
 	t_state			state;
 	pthread_mutex_t	*second;
-	pthread_mutex_t *first;
+	pthread_mutex_t	*first;
 	int				time_of_thread;
 	int				time_to_die;
 	int				num_of_eat;

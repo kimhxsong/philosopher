@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:15:37 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 15:53:44 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:31:13 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	simul_start_threads(t_data *data)
 	pthread_t		task;
 	int				num_of_philos;
 	int				i;
-	
+
 	num_of_philos = data->s->info[0];
 	i = -1;
 	while (++i < num_of_philos)
@@ -54,7 +54,7 @@ static void	simul_cleanup(t_data *data)
 
 	i = 0;
 	while (++i < data->s->info[0])
-			pthread_mutex_destroy(&data->s->forks[i]);
+		pthread_mutex_destroy(&data->s->forks[i]);
 	free(data->s->forks);
 	pthread_mutex_destroy(&data->s->key.order);
 	pthread_mutex_destroy(&data->s->key.death);
