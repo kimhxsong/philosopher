@@ -6,7 +6,7 @@
 /*   By: hyeonsok <hyeonsok@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:27:35 by hyeonsok          #+#    #+#             */
-/*   Updated: 2021/12/11 16:34:12 by hyeonsok         ###   ########.fr       */
+/*   Updated: 2021/12/11 16:46:33 by hyeonsok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void	*routine_dining(void *args)
 
 	data = (t_data *)args;
 	do_ordering(data);
-	while (data->p.state != STATE_DIED && data->s->alive == data->s->info[0]
-		&& data->s->hungry > 0)
+	while (data->s->hungry > 0)
 	{
 		get_forks(data);
 		do_eating(data);
